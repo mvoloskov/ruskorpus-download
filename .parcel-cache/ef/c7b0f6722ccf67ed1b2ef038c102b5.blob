@@ -1,0 +1,37 @@
+var _html2rtf = require('./html2rtf');
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+var _html2rtfDefault = _parcelHelpers.interopDefault(_html2rtf);
+var _download = require('./download');
+var _downloadDefault = _parcelHelpers.interopDefault(_download);
+const start = () => {
+  const list = Array.from(document.querySelectorAll('.pager ~ ol > li'));
+  const word = document.querySelector('p.res:nth-child(2n)').textContent.trim().replaceAll(`"`, ``);
+  const results = list.map(node => {
+    const heading = node.querySelector('span.b-doc-expl').textContent.trim();
+    const text = node.querySelector('li').textContent.trim().replace('\n\n             \n            [омонимия снята]\n            \n\n\n             \n             ←…→', '').replace('\n\n             \n            [омонимия не снята]\n            \n\n\n             \n             ←…→', '').replace('\n             ', '').replaceAll(word, `<b>${word}</b>`);
+    return {
+      heading,
+      text
+    };
+  });
+  console.log(word, results[0]);
+  const resultsInnerHtml = results.map(result => `
+    <li>
+      <p><b>${result.heading}</b></p>
+      <p>${result.text}</p>
+    </li>
+  `);
+  const resultsHtml = `
+    <ol>
+      ${resultsInnerHtml.join('\n')}
+    </ol>
+  `;
+  const rtf = _html2rtfDefault.default(resultsHtml);
+  // download(rtf, 'text/rtf;charset=windows-1251', 'results.rtf')
+  _downloadDefault.default(rtf, 'text/rtf', 'results.rtf');
+};
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+  start();
+} else {
+  document.addEventListener('DOMContentLoaded', start);
+}
