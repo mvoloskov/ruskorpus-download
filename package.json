@@ -5,7 +5,8 @@
   "source": "src/index.js",
   "main": "app.js",
   "scripts": {
-    "build": "parcel build src/index.js --no-source-maps"
+    "build": "parcel build src/index.js --no-source-maps",
+    "package": "npm run build && zip -r ruskorpus-download.zip app.js manifest.json"
   },
   "repository": {
     "type": "git",
