@@ -10,7 +10,7 @@ const start = () => {
     const pollute = () => {
         const style = document.createElement('style')
         style.innerHTML = `
-            body.narrow {
+            .content.narrow {
                 max-width: 50rem;
                 margin: 0 auto;
             }
@@ -62,9 +62,7 @@ const start = () => {
         const rkd = document.createElement('div')
         rkd.classList.add('rkd')
         rkd.innerHTML = `
-            <button type="button" id="rkd-download">
-                Скачать выбранное
-            </button>
+            <button type="button" id="rkd-download"></button>
 
             <span>
                 <button type="button" id="rkd-all">
@@ -107,7 +105,7 @@ const start = () => {
         } else {
             button.removeAttribute('title')
             button.removeAttribute('disabled')
-            button.innerHTML = 'Скачать выбранное'
+            button.innerHTML = '⬇ Скачать выбранное'
         }
     }
 
@@ -116,12 +114,12 @@ const start = () => {
         const narrow = document.getElementById('rkd-narrow')
         const checked = ls === 'true'
         narrow.checked = checked
-        document.body.classList.toggle('narrow', narrow.checked)
+        document.querySelector('.content').classList.toggle('narrow', checked)
     }
 
     const onNarrow = e => {
         window.localStorage.setItem('rkd-narrow', e.target.checked ? 'true' : 'false')
-        document.body.classList.toggle('narrow', e.target.checked)
+        document.querySelector('.content').classList.toggle('narrow', e.target.checked)
     }
 
     const shouldAlert = () => {
@@ -189,6 +187,9 @@ const start = () => {
         const resultsHTML = htmlify(filename, results)
         download(resultsHTML, 'text/html', filename)
     }
+
+    const kwic = new URLSearchParams(window.location.search).get('out') === 'kwic'
+    if (kwic) return 
 
     pollute()
     document.getElementById('rkd-download').addEventListener('click', downloadFile)

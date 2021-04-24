@@ -1,13 +1,13 @@
 {
   "manifest_version": 2,
-  "name": "NAME",
+  "name": "Скачать с Русского корпуса",
   "version": "1.0.0",
-  "description": "DESCRIPTION",
+  "description": "Скачивайте примеры употребления и контексты с сайта Национального корпуса русского языка",
   "permissions": [],
   "content_scripts": [{
     "matches": [
-      "http://*/*",
-      "https://*/*"
+      "https://processing.ruscorpora.ru/search.xml*",
+      "http://processing.ruscorpora.ru/search.xml*"
     ],
     "js": [
       "app.js"
