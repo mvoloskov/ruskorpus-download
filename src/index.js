@@ -23,6 +23,14 @@ const start = () => {
                 top: 1rem;
                 left: 1rem;
             }
+
+            #rkd-download {
+                cursor: pointer;
+            }
+
+            #rkd-download:disabled {
+                cursor: help;
+            }
         `
         document.head.appendChild(style)
 
@@ -48,6 +56,21 @@ const start = () => {
             td.appendChild(checkbox)
             tr.insertBefore(td, firstTd)
         })
+    }
+
+    const manageButtonState = () => {
+        const button = document.getElementById('rkd-download')
+        const checkboxes = Array.from(document.querySelectorAll('.rkd-checkbox'))
+        const checked = checkboxes.filter(checkbox => checkbox.checked)
+        if (checked.length === 0) {
+            button.setAttribute('disabled', 'disabled')
+            button.innerHTML = 'Нечего скачивать'
+            button.setAttribute('title', 'Выберите примеры, которые хотите скачать')
+        } else {
+            button.removeAttribute('title')
+            button.removeAttribute('disabled')
+            button.innerHTML = 'Скачать выбранное'
+        }
     }
 
     const getResults = () => {
@@ -92,6 +115,10 @@ const start = () => {
 
     pollute()
     document.getElementById('rkd-download').addEventListener('click', downloadFile)
+    Array.from(document.querySelectorAll('.rkd-checkbox')).forEach(node => {
+        node.addEventListener('change', manageButtonState)
+    })
+    manageButtonState()
 }
 
 if (document.readyState === 'interactive' || document.readyState === 'complete') {
