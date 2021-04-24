@@ -125,17 +125,27 @@ const start = () => {
         document.body.classList.toggle('narrow', e.target.checked)
     }
 
+    const shouldAlert = () => {
+        const checkboxes = Array.from(document.querySelectorAll('.rkd-checkbox'))
+        const checked = checkboxes.filter(checkbox => checkbox.checked)
+        return checked.length > 0 && checked.length !== checkboxes.length
+    }
+
     const selectAll = () => {
-        const result = confirm('Выделить все?')
-        if (!result) return
+        if (shouldAlert()) {
+            const result = confirm('Выделить все?')
+            if (!result) return
+        }
         const checkboxes = Array.from(document.querySelectorAll('.rkd-checkbox'))
         checkboxes.forEach(checkbox => checkbox.checked = true)
         manageButtonState()
     }
 
     const selectNone = () => {
-        const result = confirm('Снять выделение?')
-        if (!result) return
+        if (shouldAlert()) {
+            const result = confirm('Снять выделение?')
+            if (!result) return
+        }
         const checkboxes = Array.from(document.querySelectorAll('.rkd-checkbox'))
         checkboxes.forEach(checkbox => checkbox.checked = false)
         manageButtonState()
