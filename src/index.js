@@ -10,6 +10,11 @@ const start = () => {
     const pollute = () => {
         const style = document.createElement('style')
         style.innerHTML = `
+            body.narrow {
+                max-width: 50rem;
+                margin: 0 auto;
+            }
+
             .pager ~ ol ul {
                 padding-left: 0;
             }
@@ -22,11 +27,13 @@ const start = () => {
                 position: sticky;
                 top: 1rem;
                 left: 1rem;
-                display: inline-block;
+                display: inline-flex;
                 background: white;
                 padding: 1rem;
                 border: 1px solid rgba(0, 0, 0, .5);
                 border-radius: 5px;
+                font-family: sans-serif;
+                font-size: small;
             }
 
             .rkd-checkbox {
@@ -45,6 +52,10 @@ const start = () => {
             #rkd-download:disabled {
                 cursor: help;
             }
+
+            #rkd-narrow {
+                margin-left: 1rem;
+            }
         `
         document.head.appendChild(style)
 
@@ -62,6 +73,10 @@ const start = () => {
                 <button type="button" id="rkd-none">
                     Снять выделение
                 </button>
+                <label>
+                    <input type="checkbox" id="rkd-narrow">
+                    Узкая страница
+                </label>
             </span>
         `
         const pager = document.querySelector('.pager')
@@ -94,6 +109,20 @@ const start = () => {
             button.removeAttribute('disabled')
             button.innerHTML = 'Скачать выбранное'
         }
+    }
+
+    const manageNarrow = () => {
+        const ls = window.localStorage.getItem('rkd-narrow')
+        const narrow = document.getElementById('rkd-narrow')
+        const checked = ls === 'true'
+        narrow.checked = checked
+        document.body.classList.toggle('narrow', narrow.checked)
+    }
+
+    const onNarrow = e => {
+        console.log(e.target.checked)
+        window.localStorage.setItem('rkd-narrow', e.target.checked ? 'true' : 'false')
+        document.body.classList.toggle('narrow', e.target.checked)
     }
 
     const selectAll = () => {
@@ -161,6 +190,8 @@ const start = () => {
 
     document.getElementById('rkd-all').addEventListener('click', selectAll)
     document.getElementById('rkd-none').addEventListener('click', selectNone)
+    document.getElementById('rkd-narrow').addEventListener('change', onNarrow)
+    manageNarrow()
 }
 
 if (document.readyState === 'interactive' || document.readyState === 'complete') {
