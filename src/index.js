@@ -120,7 +120,6 @@ const start = () => {
     }
 
     const onNarrow = e => {
-        console.log(e.target.checked)
         window.localStorage.setItem('rkd-narrow', e.target.checked ? 'true' : 'false')
         document.body.classList.toggle('narrow', e.target.checked)
     }
