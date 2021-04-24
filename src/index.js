@@ -22,10 +22,24 @@ const start = () => {
                 position: sticky;
                 top: 1rem;
                 left: 1rem;
+                display: inline-block;
+                background: white;
+                padding: 1rem;
+                border: 1px solid rgba(0, 0, 0, .5);
+                border-radius: 5px;
+            }
+
+            .rkd-checkbox {
+                width: 20px;
+                height: 20px;
+            }
+
+            .rkd button {
+                cursor: pointer;
             }
 
             #rkd-download {
-                cursor: pointer;
+                margin-right: 1rem;
             }
 
             #rkd-download:disabled {
@@ -40,6 +54,15 @@ const start = () => {
             <button type="button" id="rkd-download">
                 Скачать выбранное
             </button>
+
+            <span>
+                <button type="button" id="rkd-all">
+                    Выделить все
+                </button>
+                <button type="button" id="rkd-none">
+                    Снять выделение
+                </button>
+            </span>
         `
         const pager = document.querySelector('.pager')
         const pagerParent = pager.parentNode
@@ -71,6 +94,22 @@ const start = () => {
             button.removeAttribute('disabled')
             button.innerHTML = 'Скачать выбранное'
         }
+    }
+
+    const selectAll = () => {
+        const result = confirm('Выделить все?')
+        if (!result) return
+        const checkboxes = Array.from(document.querySelectorAll('.rkd-checkbox'))
+        checkboxes.forEach(checkbox => checkbox.checked = true)
+        manageButtonState()
+    }
+
+    const selectNone = () => {
+        const result = confirm('Снять выделение?')
+        if (!result) return
+        const checkboxes = Array.from(document.querySelectorAll('.rkd-checkbox'))
+        checkboxes.forEach(checkbox => checkbox.checked = false)
+        manageButtonState()
     }
 
     const getResults = () => {
@@ -119,6 +158,9 @@ const start = () => {
         node.addEventListener('change', manageButtonState)
     })
     manageButtonState()
+
+    document.getElementById('rkd-all').addEventListener('click', selectAll)
+    document.getElementById('rkd-none').addEventListener('click', selectNone)
 }
 
 if (document.readyState === 'interactive' || document.readyState === 'complete') {
