@@ -1,6 +1,6 @@
 {
   "name": "ruskorpus-download",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Bare minimum browser extension boilerplate.",
   "source": "src/index.js",
   "main": "app.js",
