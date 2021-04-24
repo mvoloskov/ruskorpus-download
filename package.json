@@ -6,8 +6,8 @@
   "main": "app.js",
   "scripts": {
     "build": "parcel build src/index.js --no-source-maps",
-    "package": "npm run build && zip -r ruskorpus-download.zip app.js manifest.json",
-    "package-all": "zip -r ruskorpus-review.zip README.md package.json package-lock.json manifest.json LICENSE app.js src"
+    "package": "npm run build && zip -r ruskorpus-download.zip app.js manifest.json icon.png",
+    "package-all": "zip -r ruskorpus-review.zip README.md package.json package-lock.json manifest.json icon.png LICENSE app.js src"
   },
   "repository": {
     "type": "git",
